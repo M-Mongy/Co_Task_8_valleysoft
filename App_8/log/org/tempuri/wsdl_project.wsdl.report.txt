@@ -1,0 +1,31 @@
+
+
+Importing file: C:\Users\mohamed mongy\Documents\wsdl_project.wsdl
+
+The WSDL import will proceed with bindings CalculatorSoap.
+Creating wsdl schema document for file:///C:/Users/mohamed mongy/Documents/wsdl_project.wsdl.
+Parsing wsdl binding {http://tempuri.org/}CalculatorSoap.
+Parsing wsdl binding input Add.
+Parsing wsdl binding output Add.
+Parsing wsdl binding input Subtract.
+Parsing wsdl binding output Subtract.
+Parsing wsdl binding input Multiply.
+Parsing wsdl binding output Multiply.
+Parsing wsdl binding input Divide.
+Parsing wsdl binding output Divide.
+Processing doc style for operation Add.
+Processing doc style for operation Subtract.
+Processing doc style for operation Multiply.
+Processing doc style for operation Divide.
+Populating WSDL schema wsdl_project.xsd.
+Creating file wsdl_project.xsd in the workspace.
+Creating file wsdl_project_InlineSchema1.xsd in the workspace.
+Copying source WSDL wsdl_project.wsdl to wsdl_project.wsdl.
+
+Elapsed time processing this message definition file: 0.129 seconds
+Number of warnings for this message definition file: 0
+
+
+Number of files processed: 1
+
+

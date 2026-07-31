@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?><xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://training.example.com/Calculator" xmlns:cal="http://training.example.com/Calculator" xmlns:ibmSchExtn="http://www.ibm.com/schema/extensions" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+
+      <xsd:element ibmSchExtn:docRoot="true" name="CalculatorRequest">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element maxOccurs="1" minOccurs="1" name="requestId" type="xsd:string"/>
+            <xsd:element maxOccurs="1" minOccurs="1" name="Num1" type="xsd:int"/>
+            <xsd:element maxOccurs="1" minOccurs="1" name="Num2" type="xsd:int"/>
+            <xsd:element maxOccurs="1" minOccurs="1" name="operation" type="xsd:string"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+
+      <xsd:element ibmSchExtn:docRoot="true" name="CalculatorResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element maxOccurs="1" minOccurs="1" name="requestId" type="xsd:string"/>
+            <xsd:element maxOccurs="1" minOccurs="1" name="responseCode" type="xsd:string"/>
+            <xsd:element maxOccurs="1" minOccurs="1" name="responseMessage" type="xsd:string"/>
+            <xsd:element maxOccurs="1" minOccurs="0" name="result" type="xsd:int"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+
+    </xsd:schema>

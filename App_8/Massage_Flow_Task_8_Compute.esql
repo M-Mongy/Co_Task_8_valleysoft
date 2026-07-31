@@ -1,0 +1,38 @@
+CREATE COMPUTE MODULE Massage_Flow_Task_8_Compute
+    CREATE FUNCTION Main() RETURNS BOOLEAN
+    BEGIN
+
+        SET OutputRoot.Properties = InputRoot.Properties;
+        SET OutputLocalEnvironment = InputLocalEnvironment;
+        SET Environment.Variables.ReplyIdentifier = InputLocalEnvironment.Destination.SOAP.Reply.ReplyIdentifier;
+
+ 
+        SET Environment.Variables.requestId = InputRoot.SOAP.Body.*:CalculatorRequest.*:requestId;
+        SET Environment.Variables.operation = UPPER(InputRoot.SOAP.Body.*:CalculatorRequest.*:operation);
+
+ 
+        CREATE LASTCHILD OF OutputRoot DOMAIN('JSON');
+        CREATE FIELD OutputRoot.JSON.Data;
+        SET OutputRoot.JSON.Data.requestId = Environment.Variables.requestId;
+        SET OutputRoot.JSON.Data.num1      = CAST(InputRoot.SOAP.Body.*:CalculatorRequest.*:Num1 AS INT);
+        SET OutputRoot.JSON.Data.num2      = CAST(InputRoot.SOAP.Body.*:CalculatorRequest.*:Num2 AS INT);
+        SET OutputRoot.JSON.Data.operation = Environment.Variables.operation;
+
+
+        CASE
+            WHEN Environment.Variables.operation = 'SUM' OR Environment.Variables.operation = 'ADD' THEN
+                SET OutputLocalEnvironment.Destination.HTTP.RequestURL = 'http://localhost:7801/service1_Request';
+
+            WHEN Environment.Variables.operation = 'SUB' OR Environment.Variables.operation = 'SUBTRACT' THEN
+                SET OutputLocalEnvironment.Destination.HTTP.RequestURL = 'http://localhost:7802/service2_Request';
+
+            WHEN Environment.Variables.operation = 'MULTI' OR Environment.Variables.operation = 'MULTIPLY' THEN
+                SET OutputLocalEnvironment.Destination.HTTP.RequestURL = 'http://localhost:7803/service3_Request';
+
+            ELSE
+                THROW USER EXCEPTION MESSAGE 9001 VALUES('Invalid operation type: ' || Environment.Variables.operation);
+        END CASE;
+
+        RETURN TRUE;
+    END;
+END MODULE;

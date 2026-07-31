@@ -1,0 +1,35 @@
+
+
+CREATE COMPUTE MODULE Massage_Flow_Task_8_Compute2
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+        SET OutputRoot.Properties = InputRoot.Properties;
+        SET OutputLocalEnvironment = InputLocalEnvironment;
+
+        SET OutputRoot.HTTPRequestHeader."Content-Type" = 'text/xml; charset=utf-8';
+        
+        DECLARE soapenv NAMESPACE 'http://schemas.xmlsoap.org/soap/envelope/';
+        CREATE FIELD OutputRoot.XMLNSC.soapenv:Envelope.soapenv:Body;
+
+        SET OutputRoot.XMLNSC.soapenv:Envelope.soapenv:Body.soapenv:Fault.faultcode   = 'Server';
+        SET OutputRoot.XMLNSC.soapenv:Envelope.soapenv:Body.soapenv:Fault.faultstring = 'An error occurred while processing the request. See detail for full exception tree.';
+
+        CREATE FIELD OutputRoot.XMLNSC.soapenv:Envelope.soapenv:Body.soapenv:Fault.detail;
+        SET OutputRoot.XMLNSC.soapenv:Envelope.soapenv:Body.soapenv:Fault.detail.ExceptionList = InputExceptionList;
+		RETURN TRUE;
+	END;
+
+	CREATE PROCEDURE CopyMessageHeaders() BEGIN
+		DECLARE I INTEGER 1;
+		DECLARE J INTEGER;
+		SET J = CARDINALITY(InputRoot.*[]);
+		WHILE I < J DO
+			SET OutputRoot.*[I] = InputRoot.*[I];
+			SET I = I + 1;
+		END WHILE;
+	END;
+
+	CREATE PROCEDURE CopyEntireMessage() BEGIN
+		SET OutputRoot = InputRoot;
+	END;
+END MODULE;

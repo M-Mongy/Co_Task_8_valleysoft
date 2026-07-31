@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?><wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" targetNamespace="http://training.example.com/Calculator" xmlns:cal="http://training.example.com/Calculator" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+  <wsdl:documentation>
+    <wsdl:appinfo source="WMQI_APPINFO">
+      <MRWSDLAppInfo imported="true">
+        <binding hasEncoding="false" imported="true" name="CalculatorSoap" originalBindingStyle="document"/>
+      </MRWSDLAppInfo>
+    </wsdl:appinfo>
+  </wsdl:documentation>
+  
+
+  <wsdl:types>
+    
+          <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://training.example.com/Calculator" xmlns:ibmSchExtn="http://www.ibm.com/schema/extensions">
+
+<xsd:include schemaLocation="CalculatorFrontend_InlineSchema1.xsd"/>
+</xsd:schema>
+    </wsdl:types>
+
+  <wsdl:message name="CalculatorRequestSoapIn">
+    <wsdl:part element="cal:CalculatorRequest" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="CalculatorRequestSoapOut">
+    <wsdl:part element="cal:CalculatorResponse" name="parameters"/>
+  </wsdl:message>
+
+  <wsdl:portType name="CalculatorSoap">
+    <wsdl:operation name="CalculatorRequest">
+      <wsdl:documentation>Performs a calculator operation (Add, Subtract, Multiply, Divide) and returns the result.</wsdl:documentation>
+      <wsdl:input message="cal:CalculatorRequestSoapIn"/>
+      <wsdl:output message="cal:CalculatorRequestSoapOut"/>
+    </wsdl:operation>
+  </wsdl:portType>
+
+  <wsdl:binding name="CalculatorSoap" type="cal:CalculatorSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="CalculatorRequest">
+      <soap:operation soapAction="http://training.example.com/Calculator/CalculatorRequest" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+
+  <wsdl:service name="CalculatorFrontend">
+    <wsdl:port binding="cal:CalculatorSoap" name="CalculatorSoap">
+      <soap:address location="http://localhost:7800/calculator.asmx"/>
+    </wsdl:port>
+  </wsdl:service>
+
+</wsdl:definitions>
